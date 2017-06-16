@@ -86,18 +86,32 @@ names_keep_prescribing = names(prescribing) %in% c('unique_record_identifier', '
 
 prescr_lite = prescribing[,names_keep_prescribing]
 
-prescr_lite %>% 
-  group_by(unique_record_identifier) %>% 
-  nest() -> prescribing_nested
+#prescr_lite %>% 
+ # group_by(unique_record_identifier) %>% 
+  #nest() -> prescribing_nested
+
+#alternative
 
 
-patient_data_lite_prescr = merge(prescribing_nested, patient_data_lite, by.x = 'unique_record_identifier', by.y = 'unique_record_identifier', all.x = T)
+prescr_lite$pasted = paste(prescr_lite$unique_record_identifier, prescr_lite$prescriber_type, prescr_lite$date_prescribed, prescr_lite$date_dispensed,
+                           prescr_lite$postcode, prescr_lite$approved_name, prescr_lite$bnf_item_code, prescr_lite$prescribed_quantity, sep = ",")
 
+names_keep_prescribing_2 = names(prescr_lite) %in% c('unique_record_identifier', 'pasted')
 
-rm(list=setdiff(ls(), c('prescribing_nested', 'patient_data_lite')))
+prescr_merge = prescr_lite[,names_keep_prescribing_2]
 
-write.csv(patient_data_lite, 'patient_data_lite.csv')
+colnames(prescr_merge) = c("unique_record_identifier", "unique_record_identifier, prescriber_type, date_prescribed, date_dispensed, postcode, approved_name, bnf_item_code, prescribed_quantity")
+
+prescr_pasted = aggregate( .~ unique_record_identifier, prescr_merge, function(x) paste(x, sep = ';'))
+
+patient_data_lite_prescr = merge(patient_data_lite, prescr_pasted, by.x = 'unique_record_identifier', by.y = 'unique_record_identifier', all.x = T)
+
+rm(list=setdiff(ls(), c('patient_data_lite_prescr')))
+
+write.csv(patient_data_lite_prescr, 'patient_data_lite_prescr.csv')
+
 save.image('cancer_innovation.RData')
+
 #all drugs
 
 #pre-cancer drugs
