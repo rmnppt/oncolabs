@@ -85,9 +85,9 @@ names_keep_prescribing = names(prescribing) %in% c('unique_record_identifier', '
 
 prescr_lite = prescribing[,names_keep_prescribing]
 
-prescr_lite %>% 
- group_by(unique_record_identifier) %>% 
-  nest() -> prescribing_nested
+#prescr_lite %>% 
+ #group_by(unique_record_identifier) %>% 
+  #nest() -> prescribing_nested
 
 #alternative
 
