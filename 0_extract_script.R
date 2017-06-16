@@ -17,7 +17,6 @@ head(death)
 
 smr01$main_condition_2 = substr(smr01$main_condition, 1, 3)
 
-
 smr01_ca = subset(smr01, main_condition_2 == 'C18' | main_condition_2 == 'C19' | main_condition_2 == 'C21' | main_condition_2 == 'C15' |
                     main_condition_2 == 'C34' | main_condition_2 == 'C25' | main_condition_2 == 'C61' | main_condition_2 == 'C50' |
                     main_condition_2 == 'C16' | main_condition_2 == 'C38' | main_condition_2 == 'D00' | main_condition_2 == 'D01' |
@@ -86,9 +85,9 @@ names_keep_prescribing = names(prescribing) %in% c('unique_record_identifier', '
 
 prescr_lite = prescribing[,names_keep_prescribing]
 
-#prescr_lite %>% 
- # group_by(unique_record_identifier) %>% 
-  #nest() -> prescribing_nested
+prescr_lite %>% 
+ group_by(unique_record_identifier) %>% 
+  nest() -> prescribing_nested
 
 #alternative
 
