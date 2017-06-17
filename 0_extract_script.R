@@ -40,7 +40,7 @@ smr06_ca_lite = smr06_ca[,names_keep]
 #Get individual patients
 patient_data = smr01[!duplicated(smr01$unique_record_identifier),]
 
-names_keep_smr01 = names(patient_data) %in% c('unique_record_identifier', 'sex', 'date_of_birth')
+names_keep_smr01 = names(patient_data) %in% c('unique_record_identifier', 'sex', 'date_of_birth', 'age_in_years')
 
 patient_data_lite = patient_data[,names_keep_smr01]
 
@@ -114,8 +114,8 @@ write.csv(patient_data_lite_prescr, 'patient_data_lite_prescr.csv')
 #prescr_lite
 
 write.csv(prescr_lite, 'prescr_lite.csv')
-write.csv(patient_data_lite, 'patient_data_lite.csv')
 
+write.csv(patient_data_lite, 'patient_data_lite.csv')
 
 save.image('cancer_innovation.RData')
 
